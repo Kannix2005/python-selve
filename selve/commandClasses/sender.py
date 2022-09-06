@@ -1,4 +1,4 @@
-from os import wait
+from multiprocessing import Event
 from selve.communication import Command, CommandSingle
 from selve.protocol import CommunicationType, DeviceClass, ScanState, TeachState, senderEvents
 from selve.protocol import ParameterType
@@ -111,7 +111,7 @@ class SenderDevice(Device):
         commandStart.execute(self.gateway)
         commandResult.execute(self.gateway)
         while commandResult.timeLeft > 0:
-            wait(commandResult.timeLeft+1)
+            Event.wait(commandResult.timeLeft+1)
             commandResult.execute(self.gateway)
         if commandResult.scanState == ScanState.END_SUCCESS:
             if commandResult.foundId != -1:

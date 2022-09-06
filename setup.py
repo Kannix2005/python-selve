@@ -15,7 +15,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 setup(
     
     name='python-selve-new',  # Required    
-    version='1.0.27',  # Required  
+    version='1.0.28',  # Required  
     description='Python library for interfacing with selve devices using the USB-RF controller; forked from GPULIDO',  # Required   
     long_description=long_description,  # Optional 
     long_description_content_type="text/markdown",   
@@ -57,7 +57,8 @@ setup(
     install_requires=[
         'pyserial',
         'pybase64',
-        'untangle'
+        'untangle',
+        'nest_asyncio'
         ],  # Optional
 
     # To provide executable scripts, use entry points in preference to the

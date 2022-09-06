@@ -1,6 +1,5 @@
 import asyncio
 from enum import Enum
-from os import wait
 from selve import commands
 from selve import utils
 from selve.commandClasses.command import CommeoCommandDevice

@@ -1,8 +1,6 @@
 import logging
 from selve.protocol import CommandType
 import sys
-from time import sleep
-from selve import utils
 from selve.utils import bitstring_to_bytes
 from selve.commandClasses.iveo import IveoCommandAutomatic, IveoDevice
 import selve

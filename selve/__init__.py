@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import asyncio
+import nest_asyncio
 from selve.commandClasses.command import CommeoCommandDevice, CommeoCommandGroup, CommeoCommandGroupMan
 from selve.commandClasses.common import CommeoParamGetEvent, CommeoParamSetEvent, CommeoServiceFactoryReset, CommeoServiceGetState, CommeoServiceGetVersion, CommeoServicePing, CommeoServiceReset
 from selve.commandClasses.sensor import CommeoSensorGetIDs, SensorDevice
@@ -19,6 +20,7 @@ import threading
 import queue
 
 _LOGGER = logging.getLogger(__name__)
+nest_asyncio.apply()
 
 class Gateway():   
 
