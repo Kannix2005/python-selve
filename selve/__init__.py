@@ -42,10 +42,13 @@ class Gateway():
         
         self.configserial()
 
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:  # no event loop running:
+            loop = asyncio.new_event_loop()
 
         if discover:
             _LOGGER.info("Discovering devices")
-            loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
             result = loop.run_until_complete(self.discover())
 
