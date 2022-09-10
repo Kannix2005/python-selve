@@ -30,11 +30,11 @@ To access them:
 
     gat.devices()
 
-Will return a list of IveoDevices()
+Will return a list of devices. Those can be Iveo or Commeo devices.
 
-Each IveoDevice can be controlled by using the already defined commands: stop() moveUp() moveToIntermediatePosition1() and moveToIntermediatePosition2()
+Each device can be controlled by using the already defined commands: stop() moveUp() moveToIntermediatePosition1() and moveToIntermediatePosition2()
 
-The library also allows to send directly commands to the gateway without the need of using the IveoDevice abstraction just create the command and execute using the gateway:
+The library also allows to send directly commands to the gateway without the need of using the device abstraction just create the command and execute using the gateway:
 
 .. code-block:: python
 
@@ -43,8 +43,8 @@ The library also allows to send directly commands to the gateway without the nee
 
 Once executed the response is stored in the command instance for later user or just to discard.
 
-.. |PyPI version| image:: https://badge.fury.io/py/python-selve.svg
-   :target: https://badge.fury.io/py/python-selve
+.. |PyPI version| image:: https://badge.fury.io/py/python-selve-new.svg
+   :target: https://badge.fury.io/py/python-selve-new
 
 
 
