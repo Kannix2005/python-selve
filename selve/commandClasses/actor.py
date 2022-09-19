@@ -73,7 +73,7 @@ class CommeoDeviceGetValues(CommandSingle):
 
     def process_response(self, methodResponse):
         super().process_response(methodResponse)
-        self.name = methodResponse.parameters[0][1]
+        self.name = methodResponse.parameters[0][1] if methodResponse.parameters[0][1] else ""
         self.movementState = MovementState(int(methodResponse.parameters[2][1]))
         self.value = valueToPercentage(int(methodResponse.parameters[3][1]))
         self.targetValue = valueToPercentage(int(methodResponse.parameters[4][1]))

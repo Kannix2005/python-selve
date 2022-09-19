@@ -111,7 +111,7 @@ class Gateway():
                         #self.ser.flushOutput()
                         
                         self.ser.write(self.outputQueue.get())
-                        time.sleep(0.5)
+                        #time.sleep(0.5)
                         response_str = "" 
                         while True:
                             response = self.ser.readline().strip()
@@ -155,7 +155,7 @@ class Gateway():
                 self.ser.reset_output_buffer()
                 
                 self.ser.write(commandstr)
-                time.sleep(0.5)
+                #time.sleep(0.5)
                 response_str = "" 
                 while True:
                     response = self.ser.readline().strip()

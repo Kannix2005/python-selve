@@ -106,7 +106,7 @@ class SensorDevice(Device):
             command = CommeoSensorGetInfo(self.ID)
             command.execute(self.gateway)
             self.device_type = command.deviceType
-            self.name = command.name
+            self.name = command.name if command.name else ""
             self.rfAddress = command.rfAddress
             self.state = command.state
             self.deviceClass = DeviceClass.SENSOR

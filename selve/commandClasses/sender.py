@@ -50,7 +50,7 @@ class CommeoSenderGetInfo(CommandSingle):
 
     def process_response(self, methodResponse):
         super().process_response(methodResponse)
-        self.name = methodResponse.parameters[0][1]
+        self.name = methodResponse.parameters[0][1] if methodResponse.parameters[0][1] else ""
         self.rfAddress = methodResponse.parameters[2][1]
         self.rfChannel = int(methodResponse.parameters[3][1])
         self.rfResetCount = int(methodResponse.parameters[4][1])

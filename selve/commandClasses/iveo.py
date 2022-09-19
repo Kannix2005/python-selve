@@ -123,7 +123,7 @@ class IveoDevice(Device):
             command = IveoCommandGetConfig(self.ID)
             await command.execute(self.gateway)
             self.device_type = command.deviceType
-            self.name = command.name
+            self.name = command.name if command.name else ""
             self.activity = command.activity
         except Exception as e1:
             _LOGGER.exception ("not : " + str(e1))
