@@ -1,7 +1,7 @@
 from multiprocessing import Event
 from selve.device import Device
 from selve.communication import Command, CommandSingle
-from selve.protocol import CommunicationType, DeviceClass, ScanState, SensorState, TeachState, lightDigital, rainDigital, tempDigital, windDigital
+from selve.protocol import CommunicationType, DeviceClass, DeviceType, ScanState, SensorState, TeachState, lightDigital, rainDigital, tempDigital, windDigital
 from selve.protocol import ParameterType
 from selve.commands import CommeoSensorCommand
 from selve.utils import singlemask
@@ -105,7 +105,7 @@ class SensorDevice(Device):
         try:
             command = CommeoSensorGetInfo(self.ID)
             command.execute(self.gateway)
-            self.device_type = command.deviceType
+            self.device_type = DeviceType(0)
             self.name = command.name if command.name else ""
             self.rfAddress = command.rfAddress
             self.state = command.state

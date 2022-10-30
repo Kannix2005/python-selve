@@ -111,14 +111,13 @@ class Gateway():
                         #self.ser.flushOutput()
                         
                         self.ser.write(self.outputQueue.get())
-                        time.sleep(0.5)
+                        #time.sleep(0.5)
                         response_str = "" 
                         while True:
-                            if self.ser.in_waiting > 0:
-                                response = self.ser.readline().strip()
-                                response_str += response.decode()
-                                if (response.decode() == ''):
-                                    break
+                            response = self.ser.readline().strip()
+                            response_str += response.decode()
+                            if (response.decode() == ''):
+                                break
                             
                         self.ser.close()
                         _LOGGER.info('read data: ' + response_str)
@@ -156,14 +155,13 @@ class Gateway():
                 self.ser.reset_output_buffer()
                 
                 self.ser.write(commandstr)
-                time.sleep(0.5)
+                #time.sleep(0.5)
                 response_str = "" 
                 while True:
-                    if self.ser.in_waiting > 0:
-                        response = self.ser.readline().strip()
-                        response_str += response.decode()
-                        if (response.decode() == ''):
-                            break
+                    response = self.ser.readline().strip()
+                    response_str += response.decode()
+                    if (response.decode() == ''):
+                        break
                     
                 _LOGGER.debug('read data: ' + response_str)            
                 self.ser.close()

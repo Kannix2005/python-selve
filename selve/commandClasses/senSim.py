@@ -1,7 +1,7 @@
 from selve.commandClasses.sender import CommeoSenderGetInfo
 from selve.device import Device
 from selve.communication import Command, CommandSingle
-from selve.protocol import CommunicationType, DeviceClass, lightDigital, rainDigital, tempDigital, windDigital
+from selve.protocol import CommunicationType, DeviceClass, DeviceType, lightDigital, rainDigital, tempDigital, windDigital
 from selve.protocol import ParameterType
 from selve.commands import CommeoSenSimCommand
 from selve.utils import true_in_list
@@ -116,7 +116,7 @@ class SenSimDevice(Device):
         try:
             command = CommeoSenderGetInfo(self.ID)
             command.execute(self.gateway)
-            self.device_type = command.deviceType
+            self.device_type = DeviceType(0)
             self.name = command.name
             self.rfAddress = command.rfAddress
             self.state = command.state
