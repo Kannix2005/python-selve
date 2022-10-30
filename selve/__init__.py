@@ -111,6 +111,7 @@ class Gateway():
                         #self.ser.flushOutput()
                         
                         self.ser.write(self.outputQueue.get())
+                        self.ser.flush()
                         #time.sleep(0.5)
                         response_str = "" 
                         while True:
