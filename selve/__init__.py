@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
 import asyncio
+
+import serial.tools
+import serial.tools.list_ports
 import nest_asyncio
 from selve.commandClasses.command import CommeoCommandDevice, CommeoCommandGroup, CommeoCommandGroupMan
 from selve.commandClasses.common import CommeoParamGetEvent, CommeoParamSetEvent, CommeoServiceFactoryReset, CommeoServiceGetState, CommeoServiceGetVersion, CommeoServicePing, CommeoServiceReset
@@ -40,14 +43,17 @@ class Gateway():
         self._LOGGER = _LOGGER
         self.lock = threading.Lock()
         self.devices: dict = {}
+        self.loop = None
         
         
-        self.configserial()
 
         try:
             loop = asyncio.get_running_loop()
         except RuntimeError:  # no event loop running:
             loop = asyncio.new_event_loop()
+
+        self.loop = loop
+        self.configserial()
 
         if discover:
             _LOGGER.info("Discovering devices")
@@ -64,17 +70,65 @@ class Gateway():
         """
         Configure the serial port
         """
-        self.ser = serial.Serial(
-            port=self.port,
-            baudrate=115200,
-            parity=serial.PARITY_NONE,
-            stopbits=serial.STOPBITS_ONE,
-            bytesize=serial.EIGHTBITS)
-        self.ser.timeout = 0
-        self.ser.xonxoff = False
-        self.ser.rtscts = False
-        self.ser.dsrdtr = False
-        self.ser.writeTimeout = 2
+        if self.port is None:
+            _ser = None
+            available_ports = serial.tools.list_ports.comports()
+            self._LOGGER.debug("available comports: " + str(available_ports))
+            if len(available_ports) == 0:
+                self._LOGGER.error("No available comports!")
+                raise GatewayError
+            
+            for p in available_ports:
+                try:
+                    _ser = serial.Serial(
+                        port=p.device,
+                        baudrate=115200,
+                        parity=serial.PARITY_NONE,
+                        stopbits=serial.STOPBITS_ONE,
+                        bytesize=serial.EIGHTBITS)
+                    _ser.timeout = 0
+                    _ser.xonxoff = False
+                    _ser.rtscts = False
+                    _ser.dsrdtr = False
+                    _ser.writeTimeout = 2
+                except Exception as e:
+                    self._LOGGER.debug("Error at com port: " + str(e))
+                    try:
+                        _ser.close()
+                    except:
+                        self._LOGGER.debug("Cannot close com port")
+                    _ser = None
+                    pass
+                if self.loop.run_until_complete(self.gatewayReady()):
+                    self.ser = _ser
+                    return
+                else:
+                    _ser.close()
+                    _ser = None
+            else:
+                self._LOGGER.error("No gateway on comports found!")
+                raise GatewayError
+
+        else:
+            try:
+                self.ser = serial.Serial(
+                    port=self.port,
+                    baudrate=115200,
+                    parity=serial.PARITY_NONE,
+                    stopbits=serial.STOPBITS_ONE,
+                    bytesize=serial.EIGHTBITS)
+                self.ser.timeout = 0
+                self.ser.xonxoff = False
+                self.ser.rtscts = False
+                self.ser.dsrdtr = False
+                self.ser.writeTimeout = 2
+            except Exception as e:
+                self._LOGGER.debug("Trying other comports - configured one not valid")
+
+                self.port = None
+                self.configserial()
+
+
 
     def handleData(self, data):
         incomingEvent(str(data))
