@@ -16,7 +16,7 @@ on:
 permissions:
   contents: read
 
-jobs:
+runs:
   deploy:
 
     runs-on: ubuntu-latest
