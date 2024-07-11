@@ -29,6 +29,7 @@ jobs:
         python-version: '3.x'
     - name: Install dependencies
       run: |
+        sudo apt-get install python3-setuptools
         python -m pip install --upgrade pip
         pip install build
     - name: Build package
